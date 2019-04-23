@@ -1,12 +1,28 @@
 from flask import Flask
 import logging
-from homeworks.homework_06_web.blueprints.main.view import main_view
+from blueprints.main.view import main_view
+from blueprints.html.view import html_view
+from db import db
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
+
+DB_CONFIG = {
+    'username': 'team_six_pymail',
+    'password': '12345qwe',
+    'host': 'www.db4free.net:3306',
+    'dbname': 'article_storage',
+}
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://" \
+    f"{DB_CONFIG['username']}:{DB_CONFIG['password']}@" \
+    f"{DB_CONFIG['host']}/{DB_CONFIG['dbname']}?charset=utf8"
+app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SQLALCHEMY_RECORD_QUERIES'] = True
 app.config['MEMORY'] = []
 
 app.register_blueprint(main_view, url_prefix='/main')
+app.register_blueprint(html_view)
 
 
 @app.before_first_request

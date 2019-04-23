@@ -3,7 +3,8 @@ import uuid
 
 class Request:
 
-    def __init__(self, request_type, authors=None, title=None, key_words=None, abstract=None):
+    def __init__(self, request_type, authors=None, title=None, key_words=None,
+                 abstract=None):
         self.request_type = request_type
         self.authors = authors
         self.title = title
