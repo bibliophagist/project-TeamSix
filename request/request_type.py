@@ -6,3 +6,5 @@ class RequestType(Enum):
     GET_RANDOM_PAPER = auto()
     DELETE_PAPER = auto()
     ADD_PAPER = auto()
+    UPDATE_PAPER = auto()
+    GET_PAPER = auto()
