@@ -20,9 +20,12 @@ def random_paper():
     our_request = Request(RequestType.GET_RANDOM_PAPER)
     app.config['MEMORY'].append(our_request)
 
+    from db.Articles import Articles
+    article = Articles.query.get(1)
+
     # TODO implement request handler
 
-    return '', 204
+    return article.name
 
 
 @main_view.route("/find_paper", methods=['POST'])
@@ -42,12 +45,6 @@ def find_similar_paper():
         app.logger.debug('Arguments incorrect for %s', name)
         return abort(400)
     app.config['MEMORY'].append(our_request)
-
-    from db.Articles import Articles
-    articles = Articles(our_request.title, our_request.authors,
-                        our_request.key_words, our_request.abstract)
-    db.get_db().session.add(articles)
-    db.get_db().session.commit()
 
     # TODO implement request handler
     response = 'Some response from handler to request'
@@ -73,6 +70,12 @@ def add_paper():
         return abort(400)
     app.config['MEMORY'].append(our_request)
 
+    from db.Articles import Articles
+    articles = Articles(our_request.title, our_request.authors,
+                        our_request.key_words, our_request.abstract)
+    db.get_db().session.add(articles)
+    db.get_db().session.commit()
+
     # TODO implement request handler
     response = 'Some response from handler to request'
 
@@ -90,6 +93,11 @@ def delete_paper():
 
     our_request = Request(RequestType.DELETE_PAPER)
     app.config['MEMORY'].append(our_request)
+
+    from db.Articles import Articles
+    article = Articles.query.filter_by(name=title).first()
+    db.get_db().session.delete(article)
+    db.get_db().session.commit()
 
     # TODO implement request handler
 
