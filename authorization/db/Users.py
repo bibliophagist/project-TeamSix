@@ -17,9 +17,8 @@ class Users(db_loc.Model):
         self.last_online = last_online
 
     def __str__(self):
-        return f'{type(self).__name__}: Authors = {self.authors}, ' \
-            f'Title = {self.title}, Key words = {self.key_words}, ' \
-            f'Annotation = {self.annotation}'
+        return f'{type(self).__name__}: Authors = {self.username}, ' \
+            f'Title = {self.password}, Key words = {self.last_online}'
 
     def set_time(self, last_online):
         self.last_online = last_online

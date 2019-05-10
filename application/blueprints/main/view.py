@@ -120,8 +120,8 @@ def update_paper():
     from application.db.Articles import Articles
     db.get_db().session.query(Articles).filter(
         Articles.title == our_request.title).update(
-        {'annotation': our_request.annotation, 'Authors': our_request.authors,
-         'Key words': our_request.key_words, 'Ref': our_request.ref})
+        {'annotation': our_request.annotation, 'authors': our_request.authors,
+         'key_words': our_request.key_words, 'ref': our_request.ref})
     db.get_db().session.commit()
 
     response = 'was handled successfully'

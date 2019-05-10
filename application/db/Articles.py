@@ -21,4 +21,4 @@ class Articles(db_loc.Model):
     def __str__(self):
         return f'{type(self).__name__}: Authors = {self.authors}, ' \
             f'Title = {self.title}, Key words = {self.key_words}, ' \
-            f'Annotation = {self.annotation}'
+            f'Annotation = {self.annotation}, Ref = {self.ref}'
