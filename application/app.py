@@ -1,8 +1,7 @@
 from flask import Flask
 import logging
-from blueprints.main.view import main_view
-from blueprints.html.view import html_view
-from db import db
+from application.blueprints.main.view import main_view
+from application.blueprints.html.view import html_view
 
 app = Flask(__name__)
 logger = logging.getLogger('app')
@@ -33,4 +32,4 @@ def setup_logging():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port="8081")
+    app.run(host="127.0.0.1", port="5000")

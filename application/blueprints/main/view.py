@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 from flask import request, Blueprint, abort, current_app as app
-from request.request import Request
-from request.request_type import RequestType
+from application.request.request import Request
+from application.request.request_type import RequestType
 from sqlalchemy.sql.expression import func
-from db import db
+from application.db import db
 
 main_view = Blueprint('main_view', __name__)
 
@@ -17,7 +17,7 @@ def random_paper():
     our_request = Request(RequestType.GET_RANDOM_PAPER)
     app.config['MEMORY'].append(our_request)
 
-    from db.Articles import Articles
+    from application.db.Articles import Articles
     article = db.get_db().session.query(Articles).order_by(
         func.random()).first()
 
@@ -36,7 +36,7 @@ def get_paper():
     our_request = Request(RequestType.GET_PAPER, title=title)
     app.config['MEMORY'].append(our_request)
 
-    from db.Articles import Articles
+    from application.db.Articles import Articles
     article = db.get_db().session.query(Articles).filter_by(
         title=our_request.title).first()
     return str(article)
@@ -76,7 +76,7 @@ def add_paper():
         return abort(400)
     our_request = Request(RequestType.ADD_PAPER, data.get('Authors'),
                           data.get('Title'), data.get('Key words'),
-                          data.get('Annotation'))
+                          data.get('Annotation'), data.get('Ref'))
     if not (
             our_request.authors and our_request.title and our_request.key_words
             and our_request.annotation):
@@ -84,11 +84,12 @@ def add_paper():
         return abort(400)
     app.config['MEMORY'].append(our_request)
 
-    from db.Articles import Articles
+    from application.db.Articles import Articles
     if not db.get_db().session.query(Articles).filter_by(
             title=our_request.title).first():
         articles = Articles(our_request.title, our_request.authors,
-                            our_request.key_words, our_request.annotation)
+                            our_request.key_words, our_request.annotation,
+                            our_request.ref)
         db.get_db().session.add(articles)
         db.get_db().session.commit()
         response = 'was handled successfully'
@@ -108,7 +109,7 @@ def update_paper():
         return abort(400)
     our_request = Request(RequestType.ADD_PAPER, data.get('Authors'),
                           data.get('Title'), data.get('Key words'),
-                          data.get('Annotation'))
+                          data.get('Annotation'), data.get('Ref'))
     if not (
             our_request.authors and our_request.title and our_request.key_words
             and our_request.annotation):
@@ -116,10 +117,11 @@ def update_paper():
         return abort(400)
     app.config['MEMORY'].append(our_request)
 
-    from db.Articles import Articles
+    from application.db.Articles import Articles
     db.get_db().session.query(Articles).filter(
         Articles.title == our_request.title).update(
-        {'annotation': our_request.annotation})
+        {'annotation': our_request.annotation, 'Authors': our_request.authors,
+         'Key words': our_request.key_words, 'Ref': our_request.ref})
     db.get_db().session.commit()
 
     response = 'was handled successfully'
@@ -139,7 +141,7 @@ def delete_paper():
     our_request = Request(RequestType.DELETE_PAPER)
     app.config['MEMORY'].append(our_request)
 
-    from db.Articles import Articles
+    from application.db.Articles import Articles
     article = db.get_db().session.query(Articles).filter_by(
         title=title).first()
     db.get_db().session.delete(article)
@@ -151,7 +153,7 @@ def delete_paper():
 # TODO for HW 7 task, will delete later
 @main_view.route("/rows_number", methods=['GET'])
 def rows_number():
-    from db.Articles import Articles
+    from application.db.Articles import Articles
     rows = db.get_db().session.query(func.count(Articles.id)).scalar()
 
     return str(rows)
