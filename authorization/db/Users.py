@@ -11,7 +11,7 @@ class Users(db_loc.Model):
     password = db_loc.Column(db_loc.String(20), nullable=False)
     last_online = db_loc.Column(db_loc.Date)
 
-    def __init__(self, username, password, last_online=time.ctime()):
+    def __init__(self, username, password, last_online=time.strftime('%Y-%m-%d %H:%M:%S')):
         self.username = username
         self.password = password
         self.last_online = last_online

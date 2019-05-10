@@ -9,7 +9,7 @@ class Articles(db_loc.Model):
     authors = db_loc.Column(db_loc.String(100), nullable=False)
     key_words = db_loc.Column(db_loc.String(200), nullable=False)
     annotation = db_loc.Column(db_loc.Text, nullable=False)
-    ref = db_loc.Column(db_loc.String(100), nullable=False)
+    ref = db_loc.Column(db_loc.String(200), nullable=False)
 
     def __init__(self, title, authors, key_words, annotation, ref):
         self.title = title

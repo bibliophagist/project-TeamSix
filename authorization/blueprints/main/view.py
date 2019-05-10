@@ -8,7 +8,7 @@ main_view = Blueprint('main_view', __name__)
 
 @main_view.route("/login", methods=['POST'])
 def login():
-    data = request.form
+    data = request.json
     name = 'login user' + data['username']
     app.logger.info(name)
     if not data:
@@ -26,7 +26,7 @@ def login():
 
 @main_view.route("/register", methods=['POST'])
 def register():
-    data = request.form
+    data = request.json
     name = 'register user' + data['username']
     app.logger.info(name)
     if not data:
