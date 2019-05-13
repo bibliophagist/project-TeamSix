@@ -20,7 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_RECORD_QUERIES'] = True
 app.config['MEMORY'] = []
 
-app.register_blueprint(main_view, url_prefix='/main')
+app.register_blueprint(main_view, url_prefix='/auth')
 app.register_blueprint(html_view)
 
 

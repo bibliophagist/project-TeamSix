@@ -1,6 +1,6 @@
 from flask import Flask, abort, jsonify, request
 import logging
-from authorization.blueprints.main.view import main_view
+from authorization.blueprints.auth.view import main_view
 from authorization.blueprints.html.view import html_view
 
 DB_CONFIG = {
@@ -21,7 +21,7 @@ app_login.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app_login.config['SQLALCHEMY_RECORD_QUERIES'] = True
 app_login.config['MEMORY'] = []
 
-app_login.register_blueprint(main_view, url_prefix='/main')
+app_login.register_blueprint(main_view, url_prefix='/auth')
 app_login.register_blueprint(html_view)
 
 
