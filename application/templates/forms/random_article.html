@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+{% block header %}
+    <h1>{% block title %}Add article{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active"
+                               href="{{ url_for('html_view.index') }}">
+                                <span data-feather="home"></span>
+                                Find similar articles<span
+                                    class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('main_view.add_paper') }}">
+                                <span data-feather="file"></span>
+                                Add article
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('main_view.random_paper') }}">
+                                <span data-feather="shopping-cart"></span>
+                                Get random article
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('main_view.get_paper') }}">
+                                <span data-feather="users"></span>
+                                Get article
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('main_view.update_paper') }}">
+                                <span data-feather="users"></span>
+                                Update article
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{{ url_for('main_view.delete_paper') }}">
+                                <span data-feather="bar-chart-2"></span>
+                                Delete article
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <h1>Get random article</h1>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <h5 class="mb-1">Authors</h5>
+                        {{ authors }}
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <h5 class="mb-1">Title</h5>
+                        {{ title }}
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <h5 class="mb-1">Key words</h5>
+                        {{ key_words }}
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <h5 class="mb-1">Abstract</h5>
+                        {{ abstract }}
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <h5 class="mb-1">Reference</h5>
+                        {{ ref }}
+                    </li>
+                </ul>
+            </main>
+        </div>
+    </div>
+{% endblock %}

@@ -2,6 +2,7 @@ from flask import Flask, abort, jsonify, request
 import logging
 from authorization.blueprints.auth.view import main_view
 from authorization.blueprints.html.view import html_view
+from flask_bootstrap import Bootstrap
 
 DB_CONFIG = {
     'username': 'team_six_pymail',
@@ -11,7 +12,9 @@ DB_CONFIG = {
 }
 
 app_login = Flask(__name__)
+bootstrap = Bootstrap(app_login)
 logger = logging.getLogger('app')
+app_login.secret_key = "super secret key"
 
 app_login.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://" \
     f"{DB_CONFIG['username']}:{DB_CONFIG['password']}@" \

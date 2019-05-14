@@ -1,33 +1,7 @@
-{% extends 'bootstrap/base.html' %}
+{% extends 'index.html' %}
 
-{% block title %}
-    Seeker
-{% endblock %}
-
-{% block navbar %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1"
-                        aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse"
-                 id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <a href="{{ url_for('main_view.log_out') }}"
-                       class="btn btn-primary btn-lg active" role="button"
-                       aria-pressed="true">log out</a>
-                </ul>
-            </div>
-        </div>
-    </nav>
+{% block header %}
+    <h1>{% block title %}Add article{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -83,7 +57,7 @@
                 </div>
             </nav>
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h1>Find similar articles</h1>
+                <h1>Update article</h1>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                     <form method="post">
                         <div class="form-group">
@@ -117,11 +91,15 @@
                                    required>
                         </div>
                         <input type="submit" class="btn btn-primary"
-                               value="Add article">
+                               value="Update article">
+                        {% for message in get_flashed_messages() %}
+                            <div class="flash"><span
+                                    style="color: red; ">{{ message }}</span>
+                            </div>
+                        {% endfor %}
                     </form>
                 </div>
             </main>
         </div>
     </div>
 {% endblock %}
-

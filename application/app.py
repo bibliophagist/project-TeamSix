@@ -2,9 +2,12 @@ from flask import Flask
 import logging
 from application.blueprints.main.view import main_view
 from application.blueprints.html.view import html_view
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 logger = logging.getLogger('app')
+app.secret_key = "super secret key"
 
 DB_CONFIG = {
     'username': 'team_six_pymail',

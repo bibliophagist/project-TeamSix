@@ -1,24 +1,32 @@
-<!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-    <h1>Flaskr</h1>
-    <ul>
-        {% if g.user %}
-            <li><span>{{ g.user['username'] }}</span>
-            <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-                {% else %}
-            <li><a href="{{ url_for('main_view.register') }}">Register</a>
-            <li><a href="{{ url_for('main_view.login') }}">Log In</a>
-        {% endif %}
-    </ul>
-</nav>
-<section class="content">
-    <header>
-        {% block header %}{% endblock %}
-    </header>
-    {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% block content %}{% endblock %}
-</section>
+{% extends 'bootstrap/base.html' %}
+{% block title %}
+    Auth
+{% endblock %}
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+{% block content %}
+    <div class="text-center">
+        <h1>Please log in!</h1>
+        <a href="{{ url_for('main_view.register') }}"
+           class="btn btn-primary btn-lg active" role="button"
+           aria-pressed="true">Register</a>
+        <a href="{{ url_for('main_view.login') }}"
+           class="btn btn-primary btn-lg active" role="button"
+           aria-pressed="true">Log In</a>
+    </div>
+{% endblock %}

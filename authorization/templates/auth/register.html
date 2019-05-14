@@ -5,11 +5,23 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post">
-        <label for="username">Username</label>
-        <input name="username" id="username" required>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
-        <input type="submit" value="Register">
-    </form>
+    <div class="container justify-content-md-center">
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input class="form-control" name="username" id="username"
+                       placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" name="password" id="password"
+                       placeholder="Enter password" required>
+                {% for message in get_flashed_messages() %}
+                    <div class="flash"><span
+                            style="color: red; ">{{ message }}</span></div>
+                {% endfor %}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Register">
+        </form>
+    </div>
 {% endblock %}

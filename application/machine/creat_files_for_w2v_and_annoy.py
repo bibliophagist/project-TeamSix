@@ -1,12 +1,8 @@
 from functools import lru_cache
-from multiprocessing import Pool
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
-import itertools
-from annoy import AnnoyIndex
 from sklearn.feature_extraction.text import TfidfVectorizer
 import tqdm
-import re
 import pickle as pkl
 import pymorphy2
 import numpy as np

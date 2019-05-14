@@ -28,3 +28,4 @@ class Seeker:
         for annoy_id, annoy_sim in itertools.islice(zip(*annoy_res), 13):
             image_id = map_id_2_prod_hash[annoy_id]
             app.logger.info(data_storage[image_id], 1 - annoy_sim ** 2 / 2)
+            print(data_storage[image_id], 1 - annoy_sim ** 2 / 2)
