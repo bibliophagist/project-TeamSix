@@ -115,7 +115,7 @@ def find_similar_paper():
                        'annotation', 'key_words']
             delete_columns = [column not in columns for column in df.columns]
             df = df.drop(columns=df.columns[delete_columns])
-            return render_template('forms/show_history.html',
+            return render_template('forms/show_found_articles.html',
                                    user=app.config['user'], data=df)
         else:
             flash(error)
