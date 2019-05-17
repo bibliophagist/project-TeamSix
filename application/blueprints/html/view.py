@@ -8,6 +8,8 @@ html_view = Blueprint('html_view', __name__)
 def index():
     if 'auth' in request.cookies:
         user = request.cookies.get('auth')
+        app.config['user'] = user
+        app.logger.info(app.config['user'] + ' on server')
         return render_template('index.html', user=user)
     else:
         return redirect('http://127.0.0.1:5001/')

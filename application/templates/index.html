@@ -5,24 +5,15 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse"
-                        data-target="#bs-example-navbar-collapse-1"
-                        aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
             <div class="collapse navbar-collapse"
                  id="bs-example-navbar-collapse-1">
+                <a class="navbar-brand" style="color: black;">
+                    Hello {{ user }}!</a>
                 <ul class="nav navbar-nav navbar-right">
                     <a href="{{ url_for('main_view.log_out') }}"
-                       class="btn btn-primary btn-lg active" role="button"
+                       class="btn btn-lg btn-secondary active" role="button"
                        aria-pressed="true">log out</a>
                 </ul>
             </div>
@@ -31,94 +22,111 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active"
-                               href="{{ url_for('html_view.index') }}">
-                                <span data-feather="home"></span>
-                                Find similar articles<span
-                                    class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ url_for('main_view.add_paper') }}">
-                                <span data-feather="file"></span>
-                                Add article
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ url_for('main_view.random_paper') }}">
-                                <span data-feather="shopping-cart"></span>
-                                Get random article
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ url_for('main_view.get_paper') }}">
-                                <span data-feather="users"></span>
-                                Get article
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ url_for('main_view.update_paper') }}">
-                                <span data-feather="users"></span>
-                                Update article
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="{{ url_for('main_view.delete_paper') }}">
-                                <span data-feather="bar-chart-2"></span>
-                                Delete article
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            {% block left %}
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   href="{{ url_for('main_view.find_similar_paper') }}">
+                                    <span data-feather="home"></span>
+                                    Find similar articles<span
+                                        class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ url_for('main_view.add_paper') }}">
+                                    <span data-feather="file"></span>
+                                    Add article
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ url_for('main_view.random_paper') }}">
+                                    <span data-feather="shopping-cart"></span>
+                                    Get random article
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ url_for('main_view.get_paper') }}">
+                                    <span data-feather="users"></span>
+                                    Get article
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ url_for('main_view.update_paper') }}">
+                                    <span data-feather="users"></span>
+                                    Update article
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ url_for('main_view.delete_paper') }}">
+                                    <span data-feather="bar-chart-2"></span>
+                                    Delete article
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ url_for('main_view.show_history') }}">
+                                    <span data-feather="bar-chart-2"></span>
+                                    Show history
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                   href="{{ url_for('main_view.clean_history') }}">
+                                    <span data-feather="bar-chart-2"></span>
+                                    Clean history
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            {% endblock left %}
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h1>Find similar articles</h1>
+                <h1>Use left bar</h1>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                    <form method="post">
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input class="form-control" name="title" id="title"
-                                   placeholder="Enter title" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="authors">Authors</label>
-                            <input name="authors" id="authors"
-                                   class="form-control"
-                                   placeholder="Enter authors" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="key_words">Key Words</label>
-                            <input name="key_words" id="key_words"
-                                   class="form-control"
-                                   placeholder="Enter key words" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="abstract">Abstract</label>
-                            <input name="abstract" id="abstract"
-                                   class="form-control"
-                                   placeholder="Enter abstract" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="ref">Reference</label>
-                            <input name="ref" id="ref"
-                                   class="form-control"
-                                   placeholder="Enter reference to article"
-                                   required>
-                        </div>
-                        <input type="submit" class="btn btn-primary"
-                               value="Add article">
-                    </form>
+{#                    <form method="post"#}
+{#                          href="{{ url_for('main_view.find_similar_paper') }}">#}
+{#                        <div class="form-group">#}
+{#                            <label for="title">Title</label>#}
+{#                            <input class="form-control" name="title" id="title"#}
+{#                                   placeholder="Enter title" required>#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label for="authors">Authors</label>#}
+{#                            <input name="authors" id="authors"#}
+{#                                   class="form-control"#}
+{#                                   placeholder="Enter authors">#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label for="key_words">Key Words</label>#}
+{#                            <input name="key_words" id="key_words"#}
+{#                                   class="form-control"#}
+{#                                   placeholder="Enter key words">#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label for="abstract">Abstract</label>#}
+{#                            <input name="abstract" id="abstract"#}
+{#                                   class="form-control"#}
+{#                                   placeholder="Enter abstract">#}
+{#                        </div>#}
+{#                        <div class="form-group">#}
+{#                            <label for="ref">Reference</label>#}
+{#                            <input name="ref" id="ref"#}
+{#                                   class="form-control"#}
+{#                                   placeholder="Enter reference to article"#}
+{#                            >#}
+{#                        </div>#}
+{#                        <input type="submit" class="btn btn-primary"#}
+{#                               value="Add article">#}
+{#                    </form>#}
                 </div>
             </main>
         </div>

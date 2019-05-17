@@ -5,11 +5,11 @@ db_loc = get_db()
 
 class Articles(db_loc.Model):
     id = db_loc.Column(db_loc.Integer, primary_key=True)
-    title = db_loc.Column(db_loc.String(200), nullable=False)
-    authors = db_loc.Column(db_loc.String(100), nullable=False)
-    key_words = db_loc.Column(db_loc.String(200), nullable=False)
+    title = db_loc.Column(db_loc.Text, nullable=False)
+    authors = db_loc.Column(db_loc.Text, nullable=False)
+    key_words = db_loc.Column(db_loc.Text, nullable=False)
     annotation = db_loc.Column(db_loc.Text, nullable=False)
-    ref = db_loc.Column(db_loc.String(200), nullable=False)
+    ref = db_loc.Column(db_loc.Text, nullable=False)
 
     def __init__(self, title, authors, key_words, annotation, ref):
         self.title = title

@@ -4,11 +4,18 @@ from authorization.blueprints.auth.view import main_view
 from authorization.blueprints.html.view import html_view
 from flask_bootstrap import Bootstrap
 
+# DB_CONFIG = {
+#     'username': 'team_six_pymail',
+#     'password': '12345qwe',
+#     'host': 'www.db4free.net:3306',
+#     'dbname': 'article_storage',
+# }
+
 DB_CONFIG = {
-    'username': 'team_six_pymail',
-    'password': '12345qwe',
-    'host': 'www.db4free.net:3306',
-    'dbname': 'article_storage',
+    'username': 'bibliophagist',
+    'password': '5264552',
+    'host': 'localhost:3306',
+    'dbname': 'article_seeker',
 }
 
 app_login = Flask(__name__)
@@ -16,7 +23,7 @@ bootstrap = Bootstrap(app_login)
 logger = logging.getLogger('app')
 app_login.secret_key = "super secret key"
 
-app_login.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://" \
+app_login.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://" \
     f"{DB_CONFIG['username']}:{DB_CONFIG['password']}@" \
     f"{DB_CONFIG['host']}/{DB_CONFIG['dbname']}?charset=utf8"
 app_login.config['SQLALCHEMY_ECHO'] = True

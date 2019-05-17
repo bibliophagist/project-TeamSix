@@ -23,16 +23,16 @@ def creat():
 
 
 def __create_data_frame__():
-    data = pd.read_csv('scopus.csv')
-    columns = ['Авторы', 'Название', 'Название источника', 'Ссылка',
-               'Краткое описание', 'Ключевые слова автора']
+    data = pd.read_csv('article_from_db.csv')
+    columns = ['authors', 'title', 'ref',
+               'annotation', 'key_words']
     delete_columns = [column not in columns for column in data.columns]
     data = data.drop(columns=data.columns[delete_columns])
     data = data.fillna(" ")
-    data['Title'] = data['Название'].apply(lambda x: __normalize_text__(x))
-    data['Description'] = data['Краткое описание'].apply(
+    data['Title'] = data['title'].apply(lambda x: __normalize_text__(x))
+    data['Description'] = data['annotation'].apply(
         lambda x: __normalize_text__(x))
-    data['Key words'] = data['Ключевые слова автора'].apply(
+    data['Key words'] = data['key_words'].apply(
         lambda x: __normalize_text__(x))
     return data
 
@@ -40,7 +40,7 @@ def __create_data_frame__():
 def __create_w2v__(data):
     sentences = (data['Title'] + ' ' + data[
         'Description']).str.split()
-    model = Word2Vec(sentences, size=100, workers=2, iter=3)
+    model = Word2Vec(sentences, size=100, workers=2, iter=15)
     model.save('./w2v_products.w2v_gensim')
 
 
@@ -52,14 +52,19 @@ def __create_annoy__(data):
     tfidf = TfidfVectorizer(ngram_range=(1, 1))
     tfidf.fit(titles_)
 
+    # tf_idf_vocab = {}
+    # for i in model.wv.vocab.keys():
+    #     if i in tfidf.vocabulary_:
+    #         tf_idf_vec = tfidf.transform([i])
+    #         tf_idf_vocab[i] = \
+    #             tf_idf_vec[:, tfidf.vocabulary_[i]].toarray().flatten()[0]
+
     tf_idf_vocab = {}
     for i in model.wv.vocab.keys():
         if i in tfidf.vocabulary_:
-            tf_idf_vec = tfidf.transform([i])
-            tf_idf_vocab[i] = \
-                tf_idf_vec[:, tfidf.vocabulary_[i]].toarray().flatten()[0]
+            tf_idf_vocab[i] = tfidf.idf_[tfidf.vocabulary_[i]]
 
-    data_storage = {i[0]: i[1]['Название'] + ' ' + i[1]['Краткое описание'] for
+    data_storage = {i[0]: i[1]['title'] + ' ' + i[1]['annotation'] for
                     i in data.iterrows()}
     data_storage_norm = {}
     for i in tqdm.tqdm(data_storage):
@@ -78,12 +83,12 @@ def __create_annoy__(data):
     index_title_emb = AnnoyIndex(vec_size_emb)
 
     for prod_hash in data_storage_norm:
-        title_vec = data_storage_norm[prod_hash]  # Вытаскиваем вектор
+        title_vec = data_storage_norm[prod_hash]
 
-        index_title_emb.add_item(counter, title_vec)  # Кладем в анной
+        index_title_emb.add_item(counter, title_vec)
 
         map_id_2_prod_hash[
-            counter] = prod_hash  # сохраняем мапу - (id в анное -> продукт_id)
+            counter] = prod_hash
 
         counter += 1
 

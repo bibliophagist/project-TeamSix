@@ -8,3 +8,5 @@ class RequestType(Enum):
     ADD_PAPER = auto()
     UPDATE_PAPER = auto()
     GET_PAPER = auto()
+    SHOW_HISTORY = auto()
+    CLEAN_HISTORY = auto()

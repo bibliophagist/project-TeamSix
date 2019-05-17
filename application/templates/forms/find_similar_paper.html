@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block header %}
-    <h1>{% block title %}Add article{% endblock %}</h1>
+    <h1>{% block title %}Find similar paper{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
                 {{ super() }}
             {% endblock left %}
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <h1>Update article</h1>
+                <h1>Find similar paper</h1>
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                     <form method="post">
                         <div class="form-group">
@@ -23,35 +23,34 @@
                             <label for="authors">Authors</label>
                             <input name="authors" id="authors"
                                    class="form-control"
-                                   placeholder="Enter authors" required>
+                                   placeholder="Enter authors">
                         </div>
                         <div class="form-group">
                             <label for="key_words">Key Words</label>
                             <input name="key_words" id="key_words"
                                    class="form-control"
-                                   placeholder="Enter key words" required>
+                                   placeholder="Enter key words">
                         </div>
                         <div class="form-group">
                             <label for="abstract">Abstract</label>
                             <input name="abstract" id="abstract"
                                    class="form-control"
-                                   placeholder="Enter abstract" required>
+                                   placeholder="Enter abstract">
                         </div>
                         <div class="form-group">
                             <label for="ref">Reference</label>
                             <input name="ref" id="ref"
                                    class="form-control"
                                    placeholder="Enter reference to article"
-                                   required>
+                            >
                         </div>
                         <input type="submit" class="btn btn-primary"
-                               value="Update article">
-                        {% for message in get_flashed_messages() %}
-                            <div class="flash"><span
-                                    style="color: red; ">{{ message }}</span>
-                            </div>
-                        {% endfor %}
+                               value="Add article">
                     </form>
+                    {% for message in get_flashed_messages() %}
+                        <div class="flash"><span
+                                style="color: red; ">{{ message }}</span></div>
+                    {% endfor %}
                 </div>
             </main>
         </div>

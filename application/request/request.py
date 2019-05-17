@@ -12,3 +12,9 @@ class Request:
         self.annotation = annotation
         self.ref = ref
         self.request_id = str(uuid.uuid4())
+
+    def __str__(self):
+        return f'{type(self).__name__}: Request type = {self.request_type},' \
+            f' Authors = {self.authors}, Title = {self.title}, ' \
+            f'Key words = {self.key_words}, Annotation = {self.annotation}, ' \
+            f'Ref = {self.ref}, request id = {self.request_id}'
