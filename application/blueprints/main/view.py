@@ -14,6 +14,8 @@ main_view = Blueprint('main_view', __name__)
 
 @main_view.route("/random_paper", methods=['GET'])
 def random_paper():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     name = "Get random paper request"
     app.logger.info(name)
 
@@ -33,6 +35,8 @@ def random_paper():
 
 @main_view.route("/get_paper", methods=('GET', 'POST'))
 def get_paper():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     if request.method == 'POST':
         name = "Get paper request"
         app.logger.info(name)
@@ -68,6 +72,8 @@ def get_paper():
 
 @main_view.route("/find_similar_paper", methods=('GET', 'POST'))
 def find_similar_paper():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     if request.method == 'POST':
         name = 'Find similar paper request'
         app.logger.info(name)
@@ -77,21 +83,29 @@ def find_similar_paper():
         abstract = request.form['abstract']
         ref = request.form['ref']
         error = None
+        from application.db.Articles import Articles
         if not title:
             app.logger.debug('Arguments incorrect for %s', name)
             error = 'Title is missing.'
         if not authors or not key_words or not abstract or not ref:
-            from application.db.Articles import Articles
+            app.logger.info("Getting elements from bd")
             article = db.get_db().session.query(Articles).filter_by(
                 title=title).first()
-            abstract = article.annotation
             if not article:
+                app.logger.info('Such article is not in database '
+                                'please provide all fields!')
                 error = 'Such article is not in database' \
                         ' please provide all fields!'
+        elif not db.get_db().session.query(Articles).filter_by(
+                title=title).first():
+            app.logger.debug('Arguments incorrect for %s', name)
+            article = Articles(title, authors, key_words, abstract, ref)
+            db.get_db().session.add(article)
+            db.get_db().session.commit()
         if error is None:
-            our_request = Request(RequestType.FIND_SIMILAR_PAPER, authors,
-                                  title,
-                                  key_words, abstract)
+            our_request = Request(RequestType.FIND_SIMILAR_PAPER,
+                                  article.authors, article.title,
+                                  article.key_words, article.abstract)
             pd.set_option('display.max_colwidth', -1)
             df = app.config['seeker'].find_article_by_text(title + abstract)
             __write_to_history__(our_request, df.title.to_string)
@@ -110,6 +124,8 @@ def find_similar_paper():
 
 @main_view.route("/add_paper", methods=('GET', 'POST'))
 def add_paper():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     if request.method == 'POST':
         name = 'Add paper to DB request'
         app.logger.info(name)
@@ -150,6 +166,8 @@ def add_paper():
 
 @main_view.route("/update_paper", methods=('GET', 'POST'))
 def update_paper():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     if request.method == 'POST':
         name = 'Update paper DB request'
         app.logger.info(name)
@@ -192,6 +210,8 @@ def update_paper():
 
 @main_view.route("/delete_paper", methods=('GET', 'POST'))
 def delete_paper():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     if request.method == 'POST':
         name = 'Delete paper from DB request'
         app.logger.info(name)
@@ -225,6 +245,8 @@ def delete_paper():
 
 @main_view.route("/show_history", methods=['GET'])
 def show_history():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     name = 'Show history DB request'
     app.logger.info(name)
     error = None
@@ -254,6 +276,8 @@ def log_out():
 
 @main_view.route("/clean_history", methods=['GET'])
 def clean_history():
+    if 'auth' not in request.cookies:
+        return redirect('http://127.0.0.1:5001/')
     name = 'clean history DB request'
     app.logger.info(name)
     our_request = Request(RequestType.CLEAN_HISTORY)
