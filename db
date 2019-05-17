@@ -1,0 +1,9 @@
+CREATE TABLE `article_seeker`.`users` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(30) NOT NULL ,
+ `password` VARCHAR(20) NOT NULL , `last_online` DATE NOT NULL , PRIMARY KEY (`id`))
+ 
+ CREATE TABLE `article_seeker`.`articles` ( `id` INT NOT NULL AUTO_INCREMENT , `title` TEXT NOT NULL ,
+ `authors` TEXT NOT NULL , `key_words` TEXT NOT NULL , `annotation` TEXT NOT NULL,
+ `ref` TEXT NOT NULL , PRIMARY KEY (`id`))
+ 
+CREATE TABLE `article_seeker`.`history` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(200) NOT NULL ,
+`request` TEXT NOT NULL, `response` TEXT NOT NULL, `data` DATE NOT NULL, PRIMARY KEY (`id`))
