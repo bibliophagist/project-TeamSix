@@ -105,9 +105,10 @@ def find_similar_paper():
         if error is None:
             our_request = Request(RequestType.FIND_SIMILAR_PAPER,
                                   article.authors, article.title,
-                                  article.key_words, article.abstract)
+                                  article.key_words, article.annotation)
             pd.set_option('display.max_colwidth', -1)
-            df = app.config['seeker'].find_article_by_text(title + abstract)
+            df = app.config['seeker'].find_article_by_text(
+                article.title + article.annotation)
             __write_to_history__(our_request, df.title.to_string)
             columns = ['authors', 'title',
                        # 'ref',
