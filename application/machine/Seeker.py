@@ -15,7 +15,7 @@ class Seeker:
         else:
             self.data = creat_files_for_w2v_and_annoy.creat()
 
-    def find_article_by_text(self, text, checkbox):
+    def find_article_by_text(self, title, annotation, key_words, checkbox):
         data_storage = {i[0]: i[1]['title'] + ' ' + i[1]['annotation']
                         for i in self.data.iterrows()}
         map_id_2_prod_hash = pkl.load(
@@ -25,9 +25,10 @@ class Seeker:
         index_title_emb.load('./annoy')
         model = Word2Vec.load('./w2v_products.w2v_gensim')
 
-        app.logger.info('Запрос' + text)
+        app.logger.info('Запрос' + title)
 
-        listik = self.normalize_text(text).split(' ')
+        listik = (self.normalize_text(title) + ' ' + self.normalize_annotation(
+            annotation) + ' ' + self.normalize_key_words(key_words)).split(' ')
 
         vec = np.zeros(100)
         for i in listik:
@@ -52,3 +53,9 @@ class Seeker:
 
     def normalize_text(self, text):
         return creat_files_for_w2v_and_annoy.__normalize_text__(text)
+
+    def normalize_annotation(self, text):
+        return creat_files_for_w2v_and_annoy.normalize_description(text)
+
+    def normalize_key_words(self, text):
+        return creat_files_for_w2v_and_annoy.normalize_keys(text)

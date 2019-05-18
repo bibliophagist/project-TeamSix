@@ -1,4 +1,6 @@
 from functools import lru_cache
+
+from gensim.summarization import summarize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -31,9 +33,9 @@ def __create_data_frame__():
     data = data.fillna(" ")
     data['Title'] = data['title'].apply(lambda x: __normalize_text__(x))
     data['Description'] = data['annotation'].apply(
-        lambda x: __normalize_text__(x))
+        lambda x: normalize_description(x))
     data['Key words'] = data['key_words'].apply(
-        lambda x: __normalize_text__(x))
+        lambda x: normalize_keys(x))
     return data
 
 
@@ -47,7 +49,8 @@ def __create_w2v__(data):
 def __create_annoy__(data):
     model = Word2Vec.load('./w2v_products.w2v_gensim')
 
-    titles_ = (data['Title'] + ' ' + data['Description']).values
+    titles_ = (data['Title'] + ' ' + data['Description'] + data[
+        'Key words']).values
 
     tfidf = TfidfVectorizer(ngram_range=(1, 1))
     tfidf.fit(titles_)
@@ -64,11 +67,13 @@ def __create_annoy__(data):
         if i in tfidf.vocabulary_:
             tf_idf_vocab[i] = tfidf.idf_[tfidf.vocabulary_[i]]
 
-    data_storage = {i[0]: i[1]['title'] + ' ' + i[1]['annotation'] for
-                    i in data.iterrows()}
+    data_storage = {
+        i[0]: i[1]['Title'] + ' ' + i[1]['Description'] + ' ' + i[1][
+            'Key words'] for
+        i in data.iterrows()}
     data_storage_norm = {}
     for i in tqdm.tqdm(data_storage):
-        text = __normalize_text__(data_storage[i])
+        text = data_storage[i]
         vec = np.zeros(100)
         for word in text.split(' '):
             if word in model and word in tf_idf_vocab:
@@ -109,3 +114,18 @@ def __normalize_text__(text):
     text = [word for word in tokens if word.isalpha()]
     normalized = [__get_normal_form__(word) for word in text]
     return ' '.join([word for word in normalized if word not in stop_words])
+
+
+def normalize_description(text):
+    try:
+        text = summarize(text, ratio=0.5)
+    except ValueError:
+        pass
+    return __normalize_text__(text)
+
+
+def normalize_keys(text):
+    words = []
+    for word in text.split(';'):
+        words.append((word.lower()).replace(' ', ''))
+    return ' '.join([word for word in words])
