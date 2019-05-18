@@ -6,4 +6,4 @@ CREATE TABLE `article_seeker`.`users` ( `id` INT NOT NULL AUTO_INCREMENT , `user
  `ref` TEXT NOT NULL , PRIMARY KEY (`id`))
  
 CREATE TABLE `article_seeker`.`history` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(200) NOT NULL ,
-`request` TEXT NOT NULL, `response` TEXT NOT NULL, `data` DATE NOT NULL, PRIMARY KEY (`id`))
+`request` TEXT NOT NULL, `response` TEXT NOT NULL, `date` DATE NOT NULL, PRIMARY KEY (`id`))
