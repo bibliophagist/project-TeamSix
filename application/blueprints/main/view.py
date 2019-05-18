@@ -82,6 +82,11 @@ def find_similar_paper():
         key_words = request.form['key_words']
         abstract = request.form['abstract']
         ref = request.form['ref']
+        try:
+            _ = request.form['checkbox']
+            checkbox = True
+        except KeyError:
+            checkbox = False
         error = None
         from application.db.Articles import Articles
         if not title:
@@ -108,7 +113,7 @@ def find_similar_paper():
                                   article.key_words, article.annotation)
             pd.set_option('display.max_colwidth', -1)
             df = app.config['seeker'].find_article_by_text(
-                article.title + article.annotation)
+                article.title + article.annotation, checkbox)
             __write_to_history__(our_request, df.title.to_string)
             columns = ['authors', 'title',
                        # 'ref',

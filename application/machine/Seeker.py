@@ -15,7 +15,7 @@ class Seeker:
         else:
             self.data = creat_files_for_w2v_and_annoy.creat()
 
-    def find_article_by_text(self, text):
+    def find_article_by_text(self, text, checkbox):
         data_storage = {i[0]: i[1]['title'] + ' ' + i[1]['annotation']
                         for i in self.data.iterrows()}
         map_id_2_prod_hash = pkl.load(
